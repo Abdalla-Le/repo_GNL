@@ -1,77 +1,107 @@
 
 #include "get_next_line.h"
-/*
-char	*get_next_line(int fd)
+
+
+char	*new_line(char *line)
 {
-	char	buf[BUFFER_SIZE];
-	int		read;
+	int		i;
+	char	*new_line;
 
-	if (buffer_size == 0)
-		return (NULL);
-	line = NULL;
-	while (nao chegar ate o fial do arquivo/)
+	i = 0;
+	while(line[i] && line[i] != '\n')
+		i++;
+	new_line = (char *)ft_calloc(i + 2, sizeof(char));
+	i = 0;
+	while (line[i] && line[i] != '\n')
 	{
-		read = read(fd, buf, BUFFER_SIZE);
-		line = ft_join(line, &buf);
-
+		new_line[i] = line[i];
+		i++;
 	}
-	read()
+	new_line[i++] = '\n';
+	new_line[i] = '\0';
 
+	free(line);
+	return (new_line);
 }
-*/
 
-
-char	*get_next_line2(int fd)
+char	*read_file(int fd, char *buffer, char *line)
 {
-	static char	*unprocessed;
-	char		*buffer;
-	char		*line;
-	int			bytes_read;
-
-
-	if (fd < 0 || BUFFER_SIZE <= 0)
-	{
-		return (NULL);
-	}
-
-	char *buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	int bytes_read;
 
 	bytes_read = 1;
 	while (bytes_read > 0)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		unprocessed = ft_strjoin(line, buffer);
-		//verificar o \n nos nao processados
-
-
-	}
-
-}
-
-char	*verification_n(str)
-{
-	while (str)
-	{
-		int i;
-
-		i = 0;
-		if (strchr())
+		if(bytes_read == 0)
 		{
-
+			break;
+		}
+		if (bytes_read == -1)
+		{
+			free(line);
+			free(buffer);
+			return (NULL);
+		}
+		buffer[bytes_read] = '\0';
+		line = ft_strjoin(line, buffer);
+		if (ft_strchr(line,'\n')) //pra quebrar o looping se encontrar quebre de linha
+		{
+			free(buffer);
+			break;
 		}
 	}
+	if (bytes_read == 0 && line[0] == '\0')
+	{
+		free(line);
+		return (NULL);  // Fim do arquivo sem mais dados
+    }
+	return (line);
 }
-
 
 char	*get_next_line(int fd)
 {
+	static char	*unprocessed = NULL;;
 	char		*buffer;
-	static char	*unprocessed;
+	char		*line;
 
-	buffer = (char *)alloca((BUFFER_SIZE + 1) * sizeof(char));
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	if (unprocessed != NULL)
+	{
+		line = unprocessed;
+		unprocessed = NULL;
+	}
+	else
+		line = ft_calloc(1, 1);
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	line = read_file(fd, buffer, line);
+	if (line == NULL)
+	{
+		free(buffer);
+		return (NULL);
+	}
+	free(unprocessed);
+	unprocessed = ft_strdup(ft_strchr(line,'\n') + 1);
+	return (new_line(line));
+}
 
-	read(fd, buffer, BUFFER_SIZE);
 
+#include <fcntl.h>
+#include <stdio.h>
 
+int main ()
+{
+	int fd;
+	char *line;
 
+	fd = open("test.txt", O_RDONLY);
+	line = get_next_line(fd);
+	while(line)
+	{
+		printf("%s", line);
+		free(line);
+		line = get_next_line(fd);
+	}
+	free(line);
+	return (0);
 }

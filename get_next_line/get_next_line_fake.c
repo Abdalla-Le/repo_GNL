@@ -74,10 +74,10 @@ int main ()
 {
 	int fd;
 
-	fd = open("./test.txt", O_RDONLY);
-	char *line = get_next_line(fd);
-	line = get_next_line(fd);
-	line = get_next_line(fd);
-	line = get_next_line(fd);
-	printf("%s", line);
+	//fd = open("./test.txt", O_RDONLY);
+	//char *line = get_next_line(fd);
+	//line = get_next_line(fd);
+	//line = get_next_line(fd);
+	//line = get_next_line(fd);
+	//printf("%s", line);
 }
