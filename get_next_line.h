@@ -6,7 +6,7 @@
 /*   By: lnovis-a <lnovis-a@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:01:17 by lnovis-a          #+#    #+#             */
-/*   Updated: 2024/11/08 10:11:12 by lnovis-a         ###   ########.fr       */
+/*   Updated: 2024/11/22 12:54:52 by lnovis-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <stdlib.h>
 
 
-char *get_next_line2(int fd);
+char *get_next_line(int fd);
 void *ft_calloc(size_t nmemb, size_t size);
 char *ft_strjoin(char *s1, char *s2);
 char *ft_strdup(char *s);

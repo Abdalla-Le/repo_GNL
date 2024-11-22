@@ -6,7 +6,7 @@
 /*   By: lnovis-a <lnovis-a@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:40:06 by lnovis-a          #+#    #+#             */
-/*   Updated: 2024/11/08 18:23:28 by lnovis-a         ###   ########.fr       */
+/*   Updated: 2024/11/22 13:06:55 by lnovis-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 
 	if ((nmemb == 0) || (size == 0))
 	{
-		ptr = malloc(1);
-		return (ptr);
+		return (NULL);
 	}
 	total = size * nmemb;
 	if (total / size != nmemb)

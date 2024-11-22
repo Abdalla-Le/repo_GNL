@@ -1,7 +1,6 @@
 
 #include "get_next_line.h"
 
-
 char	*new_line(char *line)
 {
 	int		i;
@@ -39,14 +38,12 @@ char	*read_file(int fd, char *buffer, char *line)
 		if (bytes_read == -1)
 		{
 			free(line);
-			free(buffer);
 			return (NULL);
 		}
 		buffer[bytes_read] = '\0';
 		line = ft_strjoin(line, buffer);
 		if (ft_strchr(line,'\n')) //pra quebrar o looping se encontrar quebre de linha
 		{
-			free(buffer);
 			break;
 		}
 	}
@@ -66,18 +63,20 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (unprocessed != NULL)
 	{
 		line = unprocessed;
 		unprocessed = NULL;
 	}
 	else
-		line = ft_calloc(1, 1);
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+		line = ft_strdup("");
+
 	line = read_file(fd, buffer, line);
+	free(buffer);
+	buffer = NULL;
 	if (line == NULL)
 	{
-		free(buffer);
 		return (NULL);
 	}
 	free(unprocessed);
